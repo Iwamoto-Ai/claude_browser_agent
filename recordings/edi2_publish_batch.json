@@ -27,6 +27,10 @@
       "url": "file:///C:/temp/index.html"
     },
     {
+      "type": "comment",
+      "text": "ツリーを開いておく。展開はトグルなので 1 回だけ"
+    },
+    {
       "type": "click",
       "selectors": [
         [
@@ -60,6 +64,23 @@
       ]
     },
     {
+      "type": "comment",
+      "text": "家アイコンで起点へ。ここがすべての業務の出発点"
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "#homeIcon"
+        ],
+        [
+          "text/ホーム"
+        ]
+      ]
+    }
+  ],
+  "loop": [
+    {
       "type": "click",
       "selectors": [
         [
@@ -69,9 +90,7 @@
           "text/検収状況一覧"
         ]
       ]
-    }
-  ],
-  "loop": [
+    },
     {
       "type": "comment",
       "text": "発注 {{発注番号}}（{{プロジェクト番号}}）の帳票を発行"
@@ -203,50 +222,6 @@
           "text/ホーム"
         ]
       ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI仕入先"
-        ],
-        [
-          "text/📁 仕入先（練習）"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI取引情報入力・照会"
-        ],
-        [
-          "text/📁 取引情報入力・照会"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI帳票出力"
-        ],
-        [
-          "text/📁 帳票出力"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI検収状況一覧"
-        ],
-        [
-          "text/検収状況一覧"
-        ]
-      ]
     }
   ],
   "recover": [
@@ -258,50 +233,6 @@
         ],
         [
           "text/ホーム"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI仕入先"
-        ],
-        [
-          "text/📁 仕入先（練習）"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI取引情報入力・照会"
-        ],
-        [
-          "text/📁 取引情報入力・照会"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI帳票出力"
-        ],
-        [
-          "text/📁 帳票出力"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI検収状況一覧"
-        ],
-        [
-          "text/検収状況一覧"
         ]
       ]
     }
