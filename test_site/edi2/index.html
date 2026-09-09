@@ -119,49 +119,65 @@ function viewLogin(msg) {
   });
 }
 
-/* ログイン直後の画面。実サイトと同じく、ナビゲータのフォルダを開いてから
-   「取引情報入力・照会」へ進む。 */
+/* ログイン直後の画面。ナビゲータのツリーを開いて業務を選ぶ。
+
+   実サイトでは**開いた状態が保たれる。** 家アイコンで戻ってもツリーは
+   開いたまま。展開はトグルなので、2 回押すと閉じてしまう。
+   そのため 1 件目で開いておき、2 件目からは開き直さない。
+
+   起点は「ツリーを開ききったこの画面」。ここから業務ごとに分かれる。
+     ホームページ   → 仕入先ホーム（注文受諾・納入登録）
+     検収状況一覧   → 要求の計画: 定義（帳票の発行・取得）
+   録画でも、開いたあと家アイコンを押して起点の印にしている。 */
+var naviOpen = { supplier: false, torihiki: false, chohyo: false };
+
 function viewEbsHome() {
   app.innerHTML = header('E-Business Suite') +
     '<div class="main"><h2>ホーム</h2>' +
-    '<div style="border:1px solid #ddd;width:320px;padding:10px">' +
+    '<div style="border:1px solid #ddd;width:360px;padding:10px">' +
     '<b>ナビゲータ</b><br><br>' +
     '<a id="LI仕入先" class="polink"><div class="textdiv">📁 仕入先（練習）</div></a>' +
     '<div id="naviTree"></div>' +
     '</div></div>';
   bindHome();
   document.getElementById('LI仕入先').addEventListener('click', function () {
-    document.getElementById('naviTree').innerHTML =
-      '<div style="margin-left:16px">📄 納入一括登録（練習では未実装）<br>' +
-      '<a id="LI取引情報入力・照会" class="polink">' +
-      '<div class="textdiv">📁 取引情報入力・照会</div></a>' +
-      '<div id="naviTree2"></div></div>';
-    document.getElementById('LI取引情報入力・照会')
-      .addEventListener('click', function () {
-        /* 実サイトはツリーを開くだけで画面は変わらない。
-           下に「ホームページ」と「帳票出力」が並ぶ。
-             ホームページ → 仕入先ホーム（注文受諾・納入登録の起点）
-             帳票出力     → 検収状況一覧（帳票の発行・取得の起点）
-           **行き先が違うので、業務によって辿る道が変わる。** */
-        document.getElementById('naviTree2').innerHTML =
-          '<div style="margin-left:16px">' +
-          '<a id="PosHpgGenericUrl3c" class="polink">' +
-          '<div class="textdiv">ホームページ</div></a>' +
-          '<a id="LI帳票出力" class="polink">' +
-          '<div class="textdiv">📁 帳票出力</div></a>' +
-          '<div id="naviTree3"></div></div>';
-        document.getElementById('PosHpgGenericUrl3c')
-          .addEventListener('click', viewIspHome);
-        document.getElementById('LI帳票出力').addEventListener('click', function () {
-          document.getElementById('naviTree3').innerHTML =
-            '<div style="margin-left:16px">' +
-            '<a id="LI検収状況一覧" class="polink">' +
-            '<div class="textdiv">検収状況一覧</div></a></div>';
-          document.getElementById('LI検収状況一覧')
-            .addEventListener('click', viewKenshuJoken);
-        });
-      });
+    naviOpen.supplier = true;
+    drawNavi();
   });
+  if (naviOpen.supplier) { drawNavi(); }
+}
+
+/* 開いているところまでを描き直す。 */
+function drawNavi() {
+  var h = '<div style="margin-left:16px">📄 納入一括登録（練習では未実装）<br>' +
+    '<a id="LI取引情報入力・照会" class="polink">' +
+    '<div class="textdiv">📁 取引情報入力・照会</div></a>';
+  if (naviOpen.torihiki) {
+    h += '<div style="margin-left:16px">' +
+      '<a id="PosHpgGenericUrl3c" class="polink">' +
+      '<div class="textdiv">ホームページ</div></a>' +
+      '<a id="LI帳票出力" class="polink">' +
+      '<div class="textdiv">📁 帳票出力</div></a>';
+    if (naviOpen.chohyo) {
+      h += '<div style="margin-left:16px">' +
+        '<a id="LI検収状況一覧" class="polink">' +
+        '<div class="textdiv">検収状況一覧</div></a></div>';
+    }
+    h += '</div>';
+  }
+  h += '</div>';
+  document.getElementById('naviTree').innerHTML = h;
+
+  document.getElementById('LI取引情報入力・照会')
+    .addEventListener('click', function () { naviOpen.torihiki = true; drawNavi(); });
+  var hp = document.getElementById('PosHpgGenericUrl3c');
+  if (hp) { hp.addEventListener('click', viewIspHome); }
+  var ch = document.getElementById('LI帳票出力');
+  if (ch) {
+    ch.addEventListener('click', function () { naviOpen.chohyo = true; drawNavi(); });
+  }
+  var ks = document.getElementById('LI検収状況一覧');
+  if (ks) { ks.addEventListener('click', viewKenshuJoken); }
 }
 
 /* 仕入先ホーム＝繰り返しの起点。実サイトと同じく、通知・発注一覧・納入一覧と

@@ -7,6 +7,8 @@
 // 要求要約表には検索欄が無く、目的の行を目で探すしかない。
 // row/{{要求ID}} で「その文字を含む行の、最初のリンクやアイコン」を押す。
 //
+//
+// **ダウンロードは Google Chrome でのみ動く。** ブラウザーの既定を chrome にしてある。
 // 明細 CSV に要る列: プロジェクト番号 / 発注番号 / 納入日 / 要求ID
 //   （②の pad_result.csv がそのまま使える）
 // ============================================================
@@ -15,7 +17,7 @@
   "title": "EDI2 ③ 要求 ID の行から Excel をダウンロードする",
   "options": {
     "idCol": "プロジェクト番号",
-    "browser": "edge",
+    "browser": "chrome",
     "detailsFromResult": true
   },
   "setup": [
@@ -27,6 +29,10 @@
     {
       "type": "navigate",
       "url": "file:///C:/temp/index.html"
+    },
+    {
+      "type": "comment",
+      "text": "ツリーを開いておく。展開はトグルなので 1 回だけ"
     },
     {
       "type": "click",
@@ -62,6 +68,23 @@
       ]
     },
     {
+      "type": "comment",
+      "text": "家アイコンで起点へ。ここがすべての業務の出発点"
+    },
+    {
+      "type": "click",
+      "selectors": [
+        [
+          "#homeIcon"
+        ],
+        [
+          "text/ホーム"
+        ]
+      ]
+    }
+  ],
+  "loop": [
+    {
       "type": "click",
       "selectors": [
         [
@@ -71,9 +94,7 @@
           "text/検収状況一覧"
         ]
       ]
-    }
-  ],
-  "loop": [
+    },
     {
       "type": "comment",
       "text": "要求 {{要求ID}}（{{プロジェクト番号}}）の Excel を取得"
@@ -156,50 +177,6 @@
           "text/ホーム"
         ]
       ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI仕入先"
-        ],
-        [
-          "text/📁 仕入先（練習）"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI取引情報入力・照会"
-        ],
-        [
-          "text/📁 取引情報入力・照会"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI帳票出力"
-        ],
-        [
-          "text/📁 帳票出力"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI検収状況一覧"
-        ],
-        [
-          "text/検収状況一覧"
-        ]
-      ]
     }
   ],
   "recover": [
@@ -211,50 +188,6 @@
         ],
         [
           "text/ホーム"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI仕入先"
-        ],
-        [
-          "text/📁 仕入先（練習）"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI取引情報入力・照会"
-        ],
-        [
-          "text/📁 取引情報入力・照会"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI帳票出力"
-        ],
-        [
-          "text/📁 帳票出力"
-        ]
-      ]
-    },
-    {
-      "type": "click",
-      "selectors": [
-        [
-          "#LI検収状況一覧"
-        ],
-        [
-          "text/検収状況一覧"
         ]
       ]
     }
